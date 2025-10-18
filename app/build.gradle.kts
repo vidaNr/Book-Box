@@ -2,8 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    kotlin("kapt")
 }
-
 android {
     namespace = "ir.vidanajar.bookbox"
     compileSdk = 35
@@ -37,6 +38,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
@@ -56,4 +58,41 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.androidx.room.ktx)
+
+    // ViewModel lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    // kotlin coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    // JSON with JSONObject process
+    implementation(libs.json)
+
+    // ✅ Retrofit + Gson Converter
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // ✅ OkHttp Logging Interceptor
+    implementation(libs.logging.interceptor)
+
+    // DataStore Preferences
+    implementation(libs.androidx.datastore.preferences)
+
+    // navigation compose
+    implementation(libs.androidx.navigation.compose)
+
+    // --- Hilt ---
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+}
+kapt {
+    correctErrorTypes = true
+}
+hilt {
+    enableAggregatingTask = false
 }
