@@ -12,12 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.vidanajar.bookbox.data.local.TokenDataStore
-import ir.vidanajar.bookbox.ui.navigation.AppNavGraph
+import ir.vidanajar.bookbox.navigation.AppNavGraph
 import ir.vidanajar.bookbox.ui.theme.BookBoxTheme
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var tokenDataStore: TokenDataStore
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,9 +29,6 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-
-            val navController = rememberNavController()
-
             BookBoxTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AppNavGraph(
@@ -35,7 +36,8 @@ class MainActivity : ComponentActivity() {
                             top = innerPadding.calculateTopPadding(),
                             bottom = innerPadding.calculateBottomPadding()
                         ),
-                        navController = navController
+                        navController = rememberNavController(),
+                        tokenDataStore = tokenDataStore
                     )
                 }
             }
