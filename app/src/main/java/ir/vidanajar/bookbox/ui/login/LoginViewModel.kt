@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.vidanajar.bookbox.data.AuthRepository
+import ir.vidanajar.bookbox.data.repository.AuthRepository
 import ir.vidanajar.bookbox.data.local.TokenDataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

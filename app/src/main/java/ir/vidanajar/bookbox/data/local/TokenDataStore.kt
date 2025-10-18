@@ -2,29 +2,28 @@ package ir.vidanajar.bookbox.data.local
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringSetPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-val Context.dataStore by preferencesDataStore("bookbox_prefs")
-
 class TokenDataStore @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
     companion object {
-        val TOKEN_KEY = stringSetPreferencesKey("jwt_token")
+        private val Context.dataStore by preferencesDataStore("bookbox_prefs")
+        private val TOKEN_KEY = stringPreferencesKey("jwt_token")
     }
 
     val token: Flow<String?> = context.dataStore.data
-        .map { prefs -> prefs[TOKEN_KEY].toString() }
+        .map { prefs -> prefs[TOKEN_KEY] ?: "" }
 
     suspend fun saveToken(token: String) {
         context.dataStore.edit { prefs ->
-            prefs[TOKEN_KEY] = setOf(token)
+            prefs[TOKEN_KEY] = token
         }
     }
 
@@ -33,5 +32,4 @@ class TokenDataStore @Inject constructor(
             prefs.remove(TOKEN_KEY)
         }
     }
-
 }

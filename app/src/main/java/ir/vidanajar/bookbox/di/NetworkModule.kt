@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ir.vidanajar.bookbox.data.AuthRepository
+import ir.vidanajar.bookbox.data.repository.AuthRepository
 import ir.vidanajar.bookbox.data.remote.AuthApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -1,4 +1,4 @@
-package ir.vidanajar.bookbox.ui.login
+package ir.vidanajar.bookbox.ui.signup
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,41 +23,55 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 
-
 @Composable
-fun LoginScreen(
+fun SignUpScreen(
     modifier: Modifier = Modifier,
-    onLoginSuccess: () -> Unit,
-    onSignUpClick: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = hiltViewModel(),
+    onLoginClick :()-> Unit,
+    onSignUpSuccess: () -> Unit,
 ) {
-    val state by viewModel.loginState.collectAsState()
+    val state by viewModel.signUpState.collectAsState()
 
+    var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+
     LaunchedEffect(state) {
-        if (state is LoginState.Success) {
-            onLoginSuccess()
+        if (state is SignUpState.Success) {
+            onSignUpSuccess()
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(24.dp)
         ) {
+
             Spacer(modifier = modifier.height(100.dp))
             Text(
-                "Login",
+                "Sign Up",
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp)
             )
+
+            OutlinedTextField(
+                value = name,
+                onValueChange = {
+                    name = it
+                },
+                singleLine = true,
+                label = { Text("Username") },
+                modifier = modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+            )
+
             OutlinedTextField(
                 value = email,
                 onValueChange = {
@@ -80,10 +94,10 @@ fun LoginScreen(
                 singleLine = true
             )
             Button(
-                onClick = { viewModel.login(email, password) },
+                onClick = { viewModel.signUp(email, password, name) },
                 modifier = modifier
-                    .fillMaxWidth()
                     .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
             ) {
                 Text(
                     "Confirm",
@@ -92,15 +106,13 @@ fun LoginScreen(
                 )
             }
 
-            TextButton(onClick = { onSignUpClick() }) {
-                Text("Don’t have an account? Sign Up")
+            Spacer(modifier = modifier.height(8.dp))
+
+            TextButton(onClick = { onLoginClick() }) {
+                Text("Do you have an account? Login")
             }
+
         }
     }
-}
 
-@Preview
-@Composable
-private fun LoginScreenPreview() {
-    LoginScreen(modifier = Modifier, onLoginSuccess = {}, onSignUpClick = {})
 }
