@@ -7,12 +7,6 @@ import ir.vidanajar.bookbox.data.model.SignUpResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-data class UserData(
-    val id: Int,
-    val email: String,
-    val name: String,
-)
-
 interface AuthApiService {
 
     @POST("/auth/login")

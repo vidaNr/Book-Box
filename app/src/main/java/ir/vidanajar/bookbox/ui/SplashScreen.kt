@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import ir.vidanajar.bookbox.data.local.TokenDataStore
-import ir.vidanajar.bookbox.navigation.NavRoutes
+import ir.vidanajar.bookbox.utils.navigation.NavRoutes
 import kotlinx.coroutines.delay
 
 @Composable
@@ -19,17 +19,26 @@ fun SplashScreen(
     navController: NavHostController,
     tokenStore: TokenDataStore
 ) {
-    val token by tokenStore.token.collectAsState(initial = "")
+    val tokenState by tokenStore.token.collectAsState(initial = "")
 
-    LaunchedEffect(token) {
+    LaunchedEffect(tokenState) {
         delay(1500)
-        if (token.isNullOrEmpty()) {
-            navController.navigate(NavRoutes.Login.route) {
-                popUpTo(NavRoutes.Splash.route) { inclusive = true }
+
+        when {
+            tokenState == null -> {
+                navController.navigate(NavRoutes.Login.route) {
+                    popUpTo(NavRoutes.Splash.route) { inclusive = true }
+                }
             }
-        } else {
-            navController.navigate(NavRoutes.Home.route) {
-                popUpTo(NavRoutes.Splash.route) { inclusive = true }
+            tokenState!!.isNotEmpty() -> {
+                navController.navigate(NavRoutes.Home.route) {
+                    popUpTo(NavRoutes.Splash.route) { inclusive = true }
+                }
+            }
+            else -> {
+                navController.navigate(NavRoutes.Login.route) {
+                    popUpTo(NavRoutes.Splash.route) { inclusive = true }
+                }
             }
         }
     }

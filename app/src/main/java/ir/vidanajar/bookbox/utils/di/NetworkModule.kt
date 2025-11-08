@@ -1,11 +1,16 @@
-package ir.vidanajar.bookbox.di
+package ir.vidanajar.bookbox.utils.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ir.vidanajar.bookbox.data.model.Book
 import ir.vidanajar.bookbox.data.repository.AuthRepository
 import ir.vidanajar.bookbox.data.remote.AuthApiService
+import ir.vidanajar.bookbox.data.remote.BookApiService
+import ir.vidanajar.bookbox.data.remote.ShelfApiService
+import ir.vidanajar.bookbox.data.repository.BookRepository
+import ir.vidanajar.bookbox.data.repository.ShelfRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -51,6 +56,8 @@ object NetworkModule {
             .build()
     }
 
+    // Apis ==================
+
     @Provides
     @Singleton
     fun provideAuthApi(
@@ -59,6 +66,39 @@ object NetworkModule {
         return retrofit.create(AuthApiService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideBookApi(
+        retrofit: Retrofit
+    ): BookApiService {
+        return retrofit.create(BookApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideShelfApi(
+        retrofit: Retrofit
+    ): ShelfApiService {
+        return retrofit.create(ShelfApiService::class.java)
+    }
+
+    // Repositories ==================
+
+    @Provides
+    @Singleton
+    fun provideBookRepository(
+        api: BookApiService
+    ): BookRepository {
+        return BookRepository(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideShelfRepository(
+        api: ShelfApiService
+    ): ShelfRepository {
+        return ShelfRepository(api)
+    }
 
     @Provides
     @Singleton
@@ -67,5 +107,4 @@ object NetworkModule {
     ): AuthRepository {
         return AuthRepository(api)
     }
-
 }

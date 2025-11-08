@@ -1,4 +1,4 @@
-package ir.vidanajar.bookbox.navigation
+package ir.vidanajar.bookbox.utils.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,8 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ir.vidanajar.bookbox.data.local.TokenDataStore
-import ir.vidanajar.bookbox.ui.HomeScreen
 import ir.vidanajar.bookbox.ui.SplashScreen
+import ir.vidanajar.bookbox.ui.home.HomeScreen
+import ir.vidanajar.bookbox.ui.home.HomeViewModel
 import ir.vidanajar.bookbox.ui.login.LoginScreen
 import ir.vidanajar.bookbox.ui.login.LoginViewModel
 import ir.vidanajar.bookbox.ui.signup.SignUpScreen
@@ -42,7 +43,10 @@ fun AppNavGraph(
                 },
                 onSignUpClick = {
                     navController.navigate(NavRoutes.SignUp.route)
-                })
+                },
+                navController = navController,
+                tokenDataStore = tokenDataStore
+            )
         }
         composable(NavRoutes.SignUp.route) {
             val signupViewModel: SignUpViewModel = hiltViewModel()
@@ -61,10 +65,13 @@ fun AppNavGraph(
         }
 
         composable(NavRoutes.Home.route) {
-            HomeScreen(/*navController, tokenDataStore*/)
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            HomeScreen(
+                modifier = modifier,
+                viewModel = homeViewModel,
+                onBookClicked = { /*TODO*/  }
+            )
         }
-
-
     }
 
 }
