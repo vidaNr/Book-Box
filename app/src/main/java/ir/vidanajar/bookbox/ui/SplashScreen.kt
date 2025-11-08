@@ -31,7 +31,7 @@ fun SplashScreen(
                 }
             }
             tokenState!!.isNotEmpty() -> {
-                navController.navigate(NavRoutes.Home.route) {
+                navController.navigate(NavRoutes.Main.route) {
                     popUpTo(NavRoutes.Splash.route) { inclusive = true }
                 }
             }

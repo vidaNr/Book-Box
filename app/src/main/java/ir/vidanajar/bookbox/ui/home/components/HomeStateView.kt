@@ -72,7 +72,7 @@ fun HomeSuccessState(
     books: List<Book>,
     onBookClicked: (Book) -> Unit,
 ) {
-    LazyColumn(modifier.padding(bottom = 24.dp)) {
+    LazyColumn(modifier.padding(bottom = 8.dp)) {
         items(books) { item ->
             BookItem(modifier, item, onBookClick = { onBookClicked(item) })
         }
