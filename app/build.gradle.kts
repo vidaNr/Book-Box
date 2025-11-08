@@ -89,6 +89,10 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    // coil -> load image
+    implementation(libs.coil.compose)
+
+
 }
 kapt {
     correctErrorTypes = true

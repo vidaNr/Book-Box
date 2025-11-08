@@ -1,5 +1,6 @@
 package ir.vidanajar.bookbox
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,10 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.vidanajar.bookbox.data.local.TokenDataStore
-import ir.vidanajar.bookbox.navigation.AppNavGraph
+import ir.vidanajar.bookbox.utils.navigation.AppNavGraph
 import ir.vidanajar.bookbox.ui.theme.BookBoxTheme
 import javax.inject.Inject
 
@@ -23,6 +25,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var tokenDataStore: TokenDataStore
 
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +33,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BookBoxTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold {
                     AppNavGraph(
-                        modifier = Modifier.padding(
-                            top = innerPadding.calculateTopPadding(),
-                            bottom = innerPadding.calculateBottomPadding()
-                        ),
+                        modifier = Modifier,
                         navController = rememberNavController(),
                         tokenDataStore = tokenDataStore
                     )
@@ -43,5 +43,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 }

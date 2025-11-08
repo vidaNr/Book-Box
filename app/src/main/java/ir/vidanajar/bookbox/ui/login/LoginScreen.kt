@@ -1,5 +1,6 @@
 package ir.vidanajar.bookbox.ui.login
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import ir.vidanajar.bookbox.data.local.TokenDataStore
+import ir.vidanajar.bookbox.utils.navigation.NavRoutes
 
 
 @Composable
@@ -34,6 +38,8 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     onLoginSuccess: () -> Unit,
     onSignUpClick: () -> Unit,
+    tokenDataStore: TokenDataStore,
+    navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.loginState.collectAsState()
@@ -42,8 +48,19 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
 
     LaunchedEffect(state) {
-        if (state is LoginState.Success) {
-            onLoginSuccess()
+        when (state) {
+            is LoginState.Success -> {
+
+                val token = (state as LoginState.Success).token
+                tokenDataStore.saveToken(token)
+                navController.navigate(NavRoutes.Home.route) {
+                    popUpTo(NavRoutes.Login.route) { inclusive = true }
+                }
+            }
+            is LoginState.Error -> {
+                Log.d("LoginScreen", "Login failed: ${(state as LoginState.Error).message}")
+            }
+            else -> Unit
         }
     }
 
@@ -97,10 +114,4 @@ fun LoginScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun LoginScreenPreview() {
-    LoginScreen(modifier = Modifier, onLoginSuccess = {}, onSignUpClick = {})
 }

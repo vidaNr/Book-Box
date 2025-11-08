@@ -14,7 +14,7 @@ import javax.inject.Inject
 sealed class LoginState {
     object Idle : LoginState()
     object Loading : LoginState()
-    object Success : LoginState()
+    data class Success(val token : String) : LoginState()
     data class Error(val message: String) : LoginState()
 }
 
@@ -28,15 +28,18 @@ class LoginViewModel @Inject constructor(
     val loginState: StateFlow<LoginState> = _loginState
 
     fun login(email: String, password: String) {
+
+        if (email.isBlank() || password.isBlank()) return
+
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
             try {
                 val response = authRepository.login(email, password)
                 tokenStore.saveToken(response.token)
-                _loginState.value = LoginState.Success
+                _loginState.value = LoginState.Success(response.token)
                 Log.d("TAG", "user login was Successful!")
             } catch (err: Exception) {
-                _loginState.value = LoginState.Error(err.message ?: "Unknown error")
+                _loginState.value = LoginState.Error(err.message ?: "Login failed")
                 Log.d("TAG", "user login Failed: $err")
             }
         }
