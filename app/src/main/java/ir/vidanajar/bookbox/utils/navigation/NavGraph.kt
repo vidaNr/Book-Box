@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ir.vidanajar.bookbox.data.local.TokenDataStore
+import ir.vidanajar.bookbox.ui.MainScreen
 import ir.vidanajar.bookbox.ui.SplashScreen
 import ir.vidanajar.bookbox.ui.home.HomeScreen
 import ir.vidanajar.bookbox.ui.home.HomeViewModel
@@ -64,14 +65,18 @@ fun AppNavGraph(
             )
         }
 
-        composable(NavRoutes.Home.route) {
+        composable(NavRoutes.Main.route) {
+            MainScreen()
+        }
+
+        /*composable(NavRoutes.Home.route) {
             val homeViewModel: HomeViewModel = hiltViewModel()
             HomeScreen(
                 modifier = modifier,
                 viewModel = homeViewModel,
-                onBookClicked = { /*TODO*/  }
+                onBookClicked = { *//*TODO*//*  }
             )
-        }
+        }*/
     }
 
 }
