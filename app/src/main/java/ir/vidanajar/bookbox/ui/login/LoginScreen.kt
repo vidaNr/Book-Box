@@ -50,10 +50,9 @@ fun LoginScreen(
     LaunchedEffect(state) {
         when (state) {
             is LoginState.Success -> {
-
                 val token = (state as LoginState.Success).token
                 tokenDataStore.saveToken(token)
-                navController.navigate(NavRoutes.Home.route) {
+                navController.navigate(NavRoutes.Main.route) {
                     popUpTo(NavRoutes.Login.route) { inclusive = true }
                 }
             }
@@ -75,6 +74,7 @@ fun LoginScreen(
                 "Login",
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp)
             )
+            Spacer(modifier = modifier.height(80.dp))
             OutlinedTextField(
                 value = email,
                 onValueChange = {
@@ -86,6 +86,7 @@ fun LoginScreen(
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
             )
+            Spacer(modifier = modifier.height(16.dp))
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -96,6 +97,7 @@ fun LoginScreen(
                     .fillMaxWidth(),
                 singleLine = true
             )
+            Spacer(modifier = modifier.height(24.dp))
             Button(
                 onClick = { viewModel.login(email, password) },
                 modifier = modifier
@@ -105,10 +107,10 @@ fun LoginScreen(
                 Text(
                     "Confirm",
                     style = TextStyle(fontSize = 18.sp),
-                    modifier = modifier.padding(4.dp)
+                    modifier = modifier.padding(8.dp)
                 )
             }
-
+            Spacer(modifier = modifier.height(8.dp))
             TextButton(onClick = { onSignUpClick() }) {
                 Text("Don’t have an account? Sign Up")
             }

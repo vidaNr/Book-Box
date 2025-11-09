@@ -59,7 +59,7 @@ fun SignUpScreen(
                 "Sign Up",
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp)
             )
-
+            Spacer(modifier = modifier.height(80.dp))
             OutlinedTextField(
                 value = name,
                 onValueChange = {
@@ -71,7 +71,7 @@ fun SignUpScreen(
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
             )
-
+            Spacer(modifier = modifier.height(16.dp))
             OutlinedTextField(
                 value = email,
                 onValueChange = {
@@ -83,6 +83,7 @@ fun SignUpScreen(
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
             )
+            Spacer(modifier = modifier.height(16.dp))
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -93,6 +94,7 @@ fun SignUpScreen(
                     .fillMaxWidth(),
                 singleLine = true
             )
+            Spacer(modifier = modifier.height(24.dp))
             Button(
                 onClick = { viewModel.signUp(email, password, name) },
                 modifier = modifier
@@ -102,12 +104,10 @@ fun SignUpScreen(
                 Text(
                     "Confirm",
                     style = TextStyle(fontSize = 18.sp),
-                    modifier = modifier.padding(4.dp)
+                    modifier = modifier.padding(8.dp)
                 )
             }
-
             Spacer(modifier = modifier.height(8.dp))
-
             TextButton(onClick = { onLoginClick() }) {
                 Text("Do you have an account? Login")
             }
