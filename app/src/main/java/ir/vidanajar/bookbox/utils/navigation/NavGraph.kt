@@ -38,7 +38,7 @@ fun AppNavGraph(
                 modifier,
                 viewModel = loginViewModel,
                 onLoginSuccess = {
-                    navController.navigate(NavRoutes.Home.route) {
+                    navController.navigate(NavRoutes.Main.route) {
                         popUpTo(NavRoutes.Splash.route) { inclusive = true }
                     }
                 },
@@ -55,7 +55,7 @@ fun AppNavGraph(
                 modifier,
                 viewModel = signupViewModel,
                 onSignUpSuccess = {
-                    navController.navigate(NavRoutes.Home.route) {
+                    navController.navigate(NavRoutes.Main.route) {
                         popUpTo(NavRoutes.Splash.route) { inclusive = true }
                     }
                 },
